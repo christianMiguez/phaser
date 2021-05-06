@@ -1,0 +1,23 @@
+{
+  "name": "playing-phaser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "phaser": "^3.54.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/christianMiguez/phaser.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/christianMiguez/phaser/issues"
+  },
+  "homepage": "https://github.com/christianMiguez/phaser#readme"
+}
