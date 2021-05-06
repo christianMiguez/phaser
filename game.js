@@ -28,16 +28,9 @@ export class Game extends Phaser.Scene {
         this.platform = this.physics.add.image(450, 530, 'platform').setImmovable();
         this.platform.body.allowGravity = false;
 
-        this.ball = this.physics.add.image(450, 90, 'ball');
+        this.ball = this.physics.add.image(450, 490, 'ball');
+        this.ball.setData('glue', true);
         this.ball.setCollideWorldBounds(true);
-        
-        let velocity = 200 * Phaser.Math.Between(1.3, 2);
-
-        if ( Phaser.Math.Between(0, 10) > 5 ) {
-            velocity = 0 - velocity;
-        }
-
-        this.ball.setVelocity(velocity, 10);
 
         this.physics.add.collider(this.ball, this.platform, this.platformImpact, null, this);
 
@@ -47,26 +40,51 @@ export class Game extends Phaser.Scene {
 
     }
 
-    platformImpact() {
-        this.ball.setVelocityY(-680)
+    platformImpact(ball, platform) {
         this.scoreboard.incrementPoints(1);
+
+        let relativeImpact = ball.x - platform.x;
+        console.log(relativeImpact);
+        if(relativeImpact < 0.1 && relativeImpact > -0.1) {
+            ball.setVelocityX(Phaser.Math.Between(-10, 10))
+        } else {
+            ball.setVelocityX(2 * relativeImpact)
+        }
+        
     }
 
     update() {
         if ( this.cursors.left.isDown) {
-            this.platform.setVelocityX(-1400);
+            this.platform.setVelocityX(-500);
+            if (this.ball.getData('glue')) {
+                this.ball.setVelocityX(-500);
+            }
         }
         else if ( this.cursors.right.isDown) {
-            this.platform.setVelocityX(1400);
+            this.platform.setVelocityX(500);
+            if (this.ball.getData('glue')) {
+                this.ball.setVelocityX(500);
+            }
         }
         else {
             this.platform.setVelocityX(0);
+            if (this.ball.getData('glue')) {
+                this.ball.setVelocityX(0);
+            }
+            
         }
 
         if (this.ball.y > 500) {
-            console.log('fin');
             this.gamoverimage.visible = true;
             this.scene.pause();
+        }
+
+        if (this.cursors.up.isDown) {
+            if (this.ball.getData('glue')) {
+                this.ball.setVelocity(-75, 500);
+            }
+            
+            this.ball.setData('glue', false)
         }
     }
 }
