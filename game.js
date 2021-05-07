@@ -20,7 +20,6 @@ export class Game extends Phaser.Scene {
         this.load.audio('b', ['audio/b.ogg']);
         this.load.audio('c', ['audio/c.ogg']);
         this.load.audio('vamos', ['audio/vamos.ogg']);
-        this.load.audio('laplanta', ['audio/laplanta.ogg']);
 
         
         this.load.image('bloquea', 'images/bloquea.png');
@@ -46,14 +45,13 @@ export class Game extends Phaser.Scene {
         this.b = this.sound.add('b')
         this.c = this.sound.add('c')
         this.vamos = this.sound.add('vamos')
-        this.laplanta = this.sound.add('laplanta')
 
         this.bricks = this.physics.add.staticGroup({
             key: ['bloquea', 'bloqueb', 'bloquec', 'bloqued'],
-            frameQuantity: 1,
+            frameQuantity: 2,
             gridAlign: {
                 width: 4,
-                height: 1,
+                height: 2,
                 cellWidth: 104,
                 cellHeight: 50,
                 x: 302,
@@ -71,8 +69,6 @@ export class Game extends Phaser.Scene {
 
         this.ball = this.physics.add.image(450, 520, 'ball');
         this.ball.setData('glue', true);
-        this.laplanta.volume = 0.5
-        this.laplanta.play()
 
         this.ball.setCollideWorldBounds(true);
 
@@ -151,10 +147,13 @@ export class Game extends Phaser.Scene {
         }
 
         if (this.ball.y > 600) {
+            this.derp.play()
+            this.laplanta.pause()
+
             this.gamoverimage.visible = true;
             this.bricks.visible = false;
             this.scene.load
-            this.scene.restart();
+            this.scene.pause();
             
             
         }
